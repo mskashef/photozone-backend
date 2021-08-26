@@ -15,7 +15,7 @@ app.use(session({secret: 'keyboard cat', cookie: {maxAge: 365 * 24 * 60 * 60 * 1
 const functions = require('./functions');
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
-const corsUrls = ['http://192.168.43.17:3000', 'http://192.168.43.17:5000'];
+const corsUrls = ['http://192.168.43.17:3000', 'http://192.168.43.17:5000', 'http://127.0.0.1:3000'];
 app.use(cors({
     origin: (origin, cb) => cb(null, corsUrls.includes('*') || corsUrls.includes(origin)),
     credentials: true,
@@ -71,24 +71,13 @@ app.use(express.urlencoded());  // to support URL-encoded bodies
 
 
 app.get('/addUser', (req, res) => {
-
-    // res.write("Hello World");
     res.cookie('cookieName', 'cookieValue');
     console.log(req.cookies);
     const connection = mySql.createConnection(config);
     connection.connect();
-    // let query = queries.addUser(req.query.username, req.query.pass, req.query.name, req.query.bio);
     console.log(req.query);
-    // connection.query(query, function (err, rows, fields) {
-    //     if (err) {
-    //         console.error(err)
-    //     }
-    //     // console.log('The solution is: ', rows[0].solution)
-    // });
-
     connection.end();
     res.end();
-    // next();
 });
 
 app.post('/getPosts',redirectLogin,  (req, res) => {
